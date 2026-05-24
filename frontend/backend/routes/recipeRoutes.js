@@ -3,7 +3,7 @@ import Recipe from "../models/Recipe.js";
 
 const router = express.Router();
 
-router.get("/recipes", async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     const recipes = await Recipe.find();
     res.json(recipes);
