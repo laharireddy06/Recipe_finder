@@ -11,26 +11,50 @@ dotenv.config();
 
 const app = express();
 
-// CORS (frontend allowed)
+
+// ======================
+// 🔥 CORS CONFIG (FIXED)
+// ======================
 app.use(cors({
   origin: "https://recipe-finder-1-vryl.onrender.com",
   credentials: true
 }));
 
+
+// ======================
+// Middleware
+// ======================
 app.use(express.json());
 
+
+// ======================
 // Routes
-app.use("/api", recipeRoutes);
+// ======================
+app.use("/api/recipes", recipeRoutes);
 app.use("/auth", authRoutes);
 app.use("/api/ai", aiRoutes);
 
-// MongoDB connection
+
+// ======================
+// Health Check Route
+// ======================
+app.get("/", (req, res) => {
+  res.send("Backend is running 🚀");
+});
+
+
+// ======================
+// MongoDB Connection
+// ======================
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => console.log("MongoDB connected"))
   .catch((err) => console.error("MongoDB error:", err));
 
-// PORT fix for Render
+
+// ======================
+// Start Server
+// ======================
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
